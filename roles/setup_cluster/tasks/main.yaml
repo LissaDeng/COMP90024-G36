@@ -1,0 +1,27 @@
+---
+
+- name: add node to master (step1-begin)
+  command: "curl -X POST -H \"Content-Type: application/json\" http://{{username}}:{{password}}@{{ansible_default_ipv4.address}}:5984/_cluster_setup -d '{\"action\": \"enable_cluster\", \"bind_address\":\"0.0.0.0\", \"username\": \"{{username}}\", \"password\": \"{{password}}\", \"port\": 5984, \"node_count\": \"2\", \"remote_node\": \"{{item}}\", \"remote_current_user\": \"{{username}}\", \"remote_current_password\": \"{{password}}\" }'"
+  with_items: "{{groups['db_slave']}}"
+
+- name: add node to master (step2-in process)
+  command: "curl -X POST -H \"Content-Type: application/json\" http://{{username}}:{{password}}@{{ansible_default_ipv4.address}}:5984/_cluster_setup -d '{\"action\": \"add_node\", \"host\":\"{{item}}\", \"port\": 5984, \"username\": \"{{username}}\", \"password\": \"{{password}}\"}'"
+  with_items: "{{groups['db_slave']}}"
+
+- name: add node to master (step3-finish)
+  command: "curl -X POST -H \"Content-Type: application/json\" http://{{username}}:{{password}}@{{ansible_default_ipv4.address}}:5984/_cluster_setup -d '{\"action\": \"finish_cluster\"}'"
+  with_items: "{{groups['db_slave']}}"
+
+- name: remove nonode@nohost
+  shell: "{{item}}" 
+  with_items:
+    - rev=`curl -XGET "http://{{ansible_default_ipv4.address}}:5986/_nodes/nonode@nohost" --user "{{username}}:{{password}}" | sed -e 's/[{}"]//g' | cut -f3 -d:`
+    - curl -X DELETE "http://{{ansible_default_ipv4.address}}:5986/_nodes/nonode@nohost?rev=${rev}"  --user "{{username}}:{{password}}"
+
+- name: create database with replicas and shards
+  command: curl -X PUT "http://{{ansible_default_ipv4.address}}:5984/{{item}}?n=3&q=8" --user "{{username}}:{{password}}"
+  with_items:  
+    - tweets
+    - aurin
+
+  

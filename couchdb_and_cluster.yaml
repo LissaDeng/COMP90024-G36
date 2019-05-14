@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  become: yes
+  roles:
+    - install_couchdb
+
+
+- hosts: db_master
+  become: yes
+  roles:
+    - setup_cluster

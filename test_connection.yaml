@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: wait for initialization of all instances
+      wait_for:
+        host: "{{ item }}"
+        port: 22
+        search_regex: OpenSSH
+        delay: 1
+        sleep: 5
+        timeout: 150
+      with_items: "{{ groups['all'] }}"

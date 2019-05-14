@@ -1,0 +1,67 @@
+--- 
+
+- name: install jdk
+  apt:
+    name: default-jdk
+    update_cache: yes
+
+- name: Creates tomcat directory
+  file:
+    path: /opt/tomcat
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+- name: Download tomcat
+  get_url:
+    url: http://mirror.intergrid.com.au/apache/tomcat/tomcat-9/v9.0.19/bin/apache-tomcat-9.0.19.tar.gz
+    dest: /tmp
+    mode: 0755
+
+- name: Unarchive tomcat files
+  unarchive:
+    src: /tmp/apache-tomcat-9.0.19.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes
+
+- name: Create symlink '/opt/tomcat/latest'
+  file: 
+    src: /opt/tomcat/apache-tomcat-9.0.19
+    dest: /opt/tomcat/latest
+    state: link
+    owner: ubuntu
+    group: ubuntu
+    mode: 0775
+
+- name: make shell files executable
+  shell: sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+
+- name: Create a systemd Unit File
+  lineinfile:
+    dest: /etc/systemd/system/tomcat.service
+    line: "{{ item }}"
+    create: yes
+  with_items:
+    - '[Unit]'
+    - 'Description=Tomcat 9 servlet container'
+    - 'After=network.target'
+    - '[Service]'
+    - 'Type=forking'
+    - 'User=ubuntu'
+    - 'Group=ubuntu'
+    - 'Environment="JAVA_HOME=/usr/lib/jvm/default-java"'
+    - 'Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"'
+    - 'Environment="CATALINA_BASE=/opt/tomcat/latest"'
+    - 'Environment="CATALINA_HOME=/opt/tomcat/latest"'
+    - 'Environment="CATALINA_PID=/opt/tomcat/latest/temp/tomcat.pid"'
+    - 'Environment="CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC"'
+    - 'ExecStart=/opt/tomcat/latest/bin/startup.sh'
+    - 'ExecStop=/opt/tomcat/latest/bin/shutdown.sh'
+    - '[Install]'
+    - 'WantedBy=multi-user.target'
+
+- name: change the permission
+  shell: chmod -R 777 /opt/tomcat
+
+- name: open firewall
+  shell: ufw allow 8080/tcp

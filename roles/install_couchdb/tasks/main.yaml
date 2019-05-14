@@ -1,0 +1,28 @@
+---
+
+- name: Create a couchDB container
+  command: docker run -d --name couchdb --network host -p 5984:5984 -v /mnt/data:/opt/couchdb/data -e "COUCHDB_USER={{username}}" -e "COUCHDB_PASSWORD={{password}}" couchdb:2.3.0
+
+- name: modifies vm.args 
+  command: "{{item}}"
+  with_items:
+    - docker exec couchdb bash -c "echo \"-setcookie clusterg36\" >> /opt/couchdb/etc/vm.args"
+    - docker exec couchdb bash -c "echo \"-name couchdb@{{ansible_default_ipv4.address}}\" >> /opt/couchdb/etc/vm.args"
+
+- name: restart couchdb
+  command: docker restart couchdb
+
+- name: wait for restart
+  pause:
+    seconds: 15
+
+- name: config bind_address and UUID
+  command: "{{item}}"
+  with_items:
+    - curl -X PUT http://{{username}}:{{password}}@127.0.0.1:5984/_node/_local/_config/chttpd/bind_address -d '"0.0.0.0"'
+    - curl -X PUT http://{{username}}:{{password}}@127.0.0.1:5984/_node/_local/_config/httpd/bind_address -d '"0.0.0.0"'
+    - curl -X PUT http://{{username}}:{{password}}@127.0.0.1:5984/_node/_local/_config/couchdb/uuid -d '"71ff4c97566f4c01bc38226972000e10"'
+    - curl -X PUT http://{{username}}:{{password}}@127.0.0.1:5984/_node/_local/_config/couch_httpd_auth/secret -d '"71ff4c97566f4c01bc3822697200133c"'
+
+
+

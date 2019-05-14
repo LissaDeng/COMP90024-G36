@@ -1,0 +1,38 @@
+{
+  "_id": "_design/analysis",
+  "views": {
+    "angryUsersTotal": {
+      "reduce": "_approx_count_distinct",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.sentiment.angry_analysis == \"angry\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point_name,doc.user.id], 1); \n    }\n  }\n}"
+    },
+    "gluttonyUsersTotal": {
+      "reduce": "_approx_count_distinct",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.sentiment.gluttony_analysis == \"gluttony\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point_name,doc.user.id], 1); \n    }\n  }\n}"
+    },
+    "usersTotal": {
+      "reduce": "_approx_count_distinct",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  if(cityArr.indexOf(doc.point_name) > -1){\n    emit([doc.point_name, doc.user.id_str], 1);\n  }\n}"
+    },
+    "groupByLocation": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(cityArr.indexOf(doc.point_name) > -1){\n   emit(doc.point_name, 1);   \n  }\n}"
+    },
+    "angryPointSummary": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.point_type == \"poi\" && doc.sentiment.angry_analysis == \"angry\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point,doc.point_name], 1); \n    }\n  }\n}"
+    },
+    "notAngryPointSummary": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.point_type == \"poi\" && doc.sentiment.angry_analysis == \"not_angry\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point,doc.point_name], 1); \n    }\n  }\n}"
+    },
+    "notGluttonyPointSummary": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.point_type == \"poi\" && doc.sentiment.gluttony_analysis == \"not_gluttony\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point,doc.point_name], 1); \n    }\n  }\n}"
+    },
+    "gluttonyPointSummary": {
+      "reduce": "_sum",
+      "map": "function (doc) {\n  var cityArr = [\"Melbourne\", \"Sydney\", \"Adelaide\", \"Gold Coast\", \"Perth\", \"Brisbane\"];\n  \n  if(doc.point_type == \"poi\" && doc.sentiment.gluttony_analysis == \"gluttony\"){\n    if(cityArr.indexOf(doc.point_name) > -1){\n      emit([doc.point,doc.point_name], 1); \n    }\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}

@@ -1,0 +1,50 @@
+This Ansible document is for one-click deployment automation, including creating virtual machines, deploying running environment, setting up CouchDB cluster by Docker, uploading harvesters and web applications to the server and launching them all.
+
+To ensure it run successfully, please do:
+1. Run ansible on a Ubuntu server in UOM internal network environment.
+2. Install ansible with version > 2.5.2 and python3
+3. put the all files in ansible directory to the path "/home/ubuntu/ansible"
+4. run the command:
+	cd /home/ubuntu/ansible
+	dos2unix execution.sh
+	bash execution.sh
+
+
+ansible
+├── aurin                    # AURIN data and the python script used to process them
+├── harvesters               # python applications that harvest tweets from tweepy API
+├── host_vars                # vars file for playbook "launch_instance"
+├── roles                    # ansible roles called by playbooks
+│   ├── install_couchdb 
+│   ├── install_docker
+│   ├── instance_common
+│   ├── openstack_instance     
+│   ├── openstack_local_set    
+│   ├── openstack_security_groups_and_rules      
+│   ├── openstack_volume
+│   ├── setup_cluster  
+│   ├── setup_tomcat    
+├── view                             # json files that stores views in CouchDB
+│   ├── designDocForAurin.json
+│   ├── designDocForTweets.json
+│   ├── viewCreator.py               # python script that transfers json to views
+├── web                              # All web application that needs to be put in tomcat 
+├── ansible.cfg                      # self-defined CouchDB configuration file
+├── couchdb_and_cluster.yaml 
+├── execution.sh                     # shell script that calls all the ansible-playbooks
+├── import_ip_to_hosts.py            # python script that retrieves and stores IP of instances
+├── install_docker.yaml
+├── instance_common_setup.yaml
+├── launch_instance.yaml
+├── README
+├── second.pem                       # the private key that used to SSH all the instances
+├── setup_instance_proxy.yaml
+├── test_connection.yaml
+├── unimelb-comp90024-group-36-openrc.sh  # shell script to be sourced before launching instances
+├── upload_and_run_harvester.yaml  
+├── webserver_setup.yaml
+├── harvester1.sh                         # shell script used to launch harvester1
+├── harvester2.sh                         # shell script used to launch harvester2
+├── harvester3.sh                         # shell script used to launch harvester3
+
+

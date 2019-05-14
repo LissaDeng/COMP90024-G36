@@ -1,0 +1,22 @@
+---
+
+# Create volumes
+- name: Create volumes on cloud
+  os_volume:
+    state: present
+    display_name: '{{ item.volume_name }}'
+    size: '{{ item.vol_size }}'
+    availability_zone: '{{ availability_zone }}'
+    wait: yes
+    timeout: 300
+  with_items: '{{ volumes }}'
+  register: os_vol
+
+#Get volume IDs
+- name: Create a list of volume IDs
+  set_fact:
+    os_vol_ids: "{{ os_vol_ids|default([]) + [ item.id ] }}"
+  with_items: '{{ os_vol.results }}'
+
+- debug:
+    msg: "volume {{ os_vol_ids }} has been created"

@@ -1,0 +1,75 @@
+---
+
+- hosts: harvester
+  tasks:
+    - name: copy python files to server
+      copy:
+        src: harvester
+        dest: /home/ubuntu
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu
+
+- hosts: harvester1
+  tasks:
+    - name: copy shell sripts used to launch harvester to server
+      copy:
+        src: harvester1.sh
+        dest: /home/ubuntu/harvester/
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu
+
+    - name: format shell scripts
+      command: dos2unix harvester1.sh
+      args:
+        chdir: /home/ubuntu/harvester
+
+- hosts: harvester2
+  tasks:
+    - name: copy shell sripts used to launch harvester to server
+      copy:
+        src: harvester2.sh
+        dest: /home/ubuntu/harvester/
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu
+
+    - name: format shell scripts
+      command: dos2unix harvester2.sh
+      args:
+        chdir: /home/ubuntu/harvester
+
+- hosts: harvester3
+  tasks:
+    - name: copy shell sripts used to launch harvester to server
+      copy:
+        src: harvester3.sh
+        dest: /home/ubuntu/harvester/
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu
+
+    - name: format shell scripts
+      command: dos2unix harvester3.sh
+      args:
+        chdir: /home/ubuntu/harvester
+
+- hosts: harvester
+  tasks:
+    - name: run python
+      shell: bash *.sh # mpiexec can not be run under sudo
+      args:
+        chdir: /home/ubuntu/harvester/
+      async: 10000000
+      poll: 0
+      register: mpi_results
+
+    # - name: 'YUM - check on async task'
+    #   async_status:
+    #     jid: "{{ mpi_results.ansible_job_id }}"
+    #   register: job_result
+    #   until: job_result.finished
+    #   retries: 100
+
+    # - debug: var=job_result.stdout_lines

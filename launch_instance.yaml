@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  vars_files:
+    - host_vars/var.yaml
+  gather_facts: true
+
+  roles:
+    - role: openstack_local_set
+    - role: openstack_volume
+    - role: openstack_security_groups_and_rules
+    - role: openstack_instance

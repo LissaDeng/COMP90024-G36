@@ -1,0 +1,37 @@
+---
+
+- name: launch an instance
+  os_server:
+    state: present
+    name: "{{ item.0 }}"
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ security_groups_lists }}'
+    volumes: "{{ item.1 }}"
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+  with_together:
+    - "{{ instance_names }}"
+    - "{{ os_vol_ids }}"
+  register: os_instance
+
+- name: create an IP list
+  set_fact:
+    ip_list: "{{ ip_list|default([]) + [ item.openstack.public_v4 ] }}"
+  with_items: '{{ os_instance.results }}'
+  when:
+   - os_instance.results[0].openstack is defined
+   - os_instance.results[1].openstack is defined
+   - os_instance.results[2].openstack is defined
+   - os_instance.results[3].openstack is defined
+
+- debug:
+    msg: "Instance {{ ip_list }} have been created"
+
+# save IPs in local files
+- local_action: copy content="{{ ip_list }}" dest="/home/ubuntu/ansible/ip_address"
+
+

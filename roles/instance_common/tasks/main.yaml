@@ -1,0 +1,105 @@
+#format and mount volume
+- name: Format Volume
+  filesystem:
+    fstype: ext4
+    dev: /dev/vdb
+
+- name: Create Mount Dir
+  file:
+    path: /mnt/data
+    state: directory
+
+- name: Mount Volume
+  mount:
+    path: /mnt/data
+    src: /dev/vdb
+    fstype: ext4
+    state: mounted
+
+- name: Change the Permission of directory '/mnt/data'
+  file:
+    path: /mnt/data
+    mode: 0777
+    recurse: yes
+    state: directory
+
+
+#install software
+- name: Install pip3
+  apt:
+    name: ['python3-pip']
+    state: latest
+    update_cache: yes
+
+- name: Update pip3
+  pip:
+    name: ['pip']
+    state: latest
+    executable: pip3
+
+- name: Install tweepy package
+  pip:
+    name: ['tweepy']
+    state: latest
+
+- name: Install couchdb package
+  pip:
+    name: ['couchdb']
+    state: latest
+
+- name: Install OpenMPI
+  apt:
+    name:
+      - libopenmpi-dev
+      - openmpi-bin
+      - openmpi-doc
+    state: latest
+
+- name: Install mpi4py package
+  pip:
+    name: ['mpi4py']
+    state: latest
+
+- name: Install dos2unix
+  apt:
+    name: ['dos2unix']
+    state: latest
+
+- name: Install nltk package
+  pip:
+    name: ['nltk']
+    state: latest
+
+- name: Install textblob package
+  pip:
+    name: ['textblob']
+    state: latest
+
+- name: Install dependencies for image process
+  apt:
+    name:
+      - libsm6
+      - libxext6
+      - libxrender1
+    state: latest
+
+- name: Install tensorflow package
+  pip:
+    name: ['tensorflow']
+    state: latest
+    extra_args: --upgrade
+
+- name: Install python package for image process
+  pip:
+    name: "{{ item }}"
+    state: latest
+    executable: pip3
+  with_items:
+    - ['numpy']
+    - ['scipy']
+    - ['opencv-python']
+    - ['pillow']
+    - ['matplotlib']
+    - ['h5py']
+    - ['keras']
+    - ['https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.1/imageai-2.0.1-py3-none-any.whl']

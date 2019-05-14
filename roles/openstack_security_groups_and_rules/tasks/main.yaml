@@ -1,0 +1,35 @@
+---
+
+- name: Create security groups (SSH, HTTP, couchDB)
+  os_security_group:
+    name: '{{ item.name }}'
+    description: '{{ item.description }}'
+    state: present
+  with_items: '{{ security_groups }}'
+
+- name: Create security group rules
+  os_security_group_rule:
+    security_group: '{{ item.name }}'
+    protocol: '{{ item.protocol }}'
+    port_range_min: '{{ item.port_range_min }}'
+    port_range_max: '{{ item.port_range_max }}'
+    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
+    state: present
+  with_items: '{{ security_groups }}'
+
+- name: Create internal security group
+  os_security_group:
+    name: internal
+    description: internal connection with remote_group as itself
+    state: present
+
+- name: Create security group rules for internal
+  os_security_group_rule:
+    security_group: internal
+    protocol: "{{ item }}"
+    remote_group: internal
+    state: present
+  with_items:
+    - tcp
+    - udp
+    - icmp

@@ -1,0 +1,53 @@
+---
+
+- hosts: webserver
+  become: yes
+  roles:
+    - setup_tomcat
+
+
+- hosts: webserver
+  become: yes
+  tasks:
+    - name: start tomcat
+      systemd:
+        state: started
+        daemon_reload: yes
+        name: tomcat
+
+    - name: upload AURIN dataset and process to couchDB
+      copy:
+        src: aurin
+        dest: /home/ubuntu
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu
+
+    - name: run Aurin python
+      shell: python3 store_aurin_data.py
+      args:
+        chdir: /home/ubuntu/aurin/
+      async: 1000000
+      poll: 0
+
+    - name: upload views loading files
+      copy: view
+      dest: /home/ubuntu
+      mode: 0755
+      owner: ubuntu
+      group: ubuntu
+
+    - name: run Aurin python
+      shell: python3 viewCreator.py
+      args:
+        chdir: /home/ubuntu/view/
+      async: 1000000
+      poll: 0
+
+    - name: upload web files
+      copy:
+        src: web/build/
+        dest: /opt/tomcat/apache-tomcat-9.0.19/webapps/ROOT/
+        mode: 0755
+        owner: ubuntu
+        group: ubuntu

@@ -1,0 +1,160 @@
+{
+  "_id": "_design/analysis",
+  "views": {
+    "melbourneDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "sydneyDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "melbournePoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "melbourneEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "melbourneLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "melbourneUnemploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "brisbaneDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "goldCoastDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "adelaideDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "perthDiabetes": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"diabetes\"){\n    emit(doc.area_name, doc.rate.toFixed(3));\n  }\n}"
+    },
+    "adelaideEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "brisbaneEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "goldCoastEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "perthEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "sydneyEducation": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"education\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "adelaideLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "brisbaneLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "goldCoastLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "perthLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "sydneyLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"life_satisfaction\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "adelaidePoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "brisbanePoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "goldCoastPoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "perthPoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "sydneyPoverty": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"poverty\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "adelaideUnemploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "brisbaneUnemploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "goldCoastUnemploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "perthUnemploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "sydneyUnploymentRate": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"unemployment_rate\"){\n    emit(doc.area_name, parseFloat(doc.rate).toFixed(3));\n  }\n}"
+    },
+    "averageDiabetes": {
+      "map": "function (doc) {\n  if(doc.type == \"diabetes\"){\n    if(doc.rate != null){\n      emit(doc.city, doc.rate);\n    }\n  }\n}",
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}"
+    },
+    "averageEducation": {
+      "map": "function (doc) {\n  if(doc.type == \"education\"){\n    if(doc.rate != 0){\n      emit(doc.city, doc.rate);\n    }\n  }\n}",
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}"
+    },
+    "averageLifeSatisfaction": {
+      "map": "function (doc) {\n  if(doc.type == \"life_satisfaction\"){\n    if(doc.rate != null && doc.rate != 0){\n      emit(doc.city, doc.rate);\n    }\n  }\n}",
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}"
+    },
+    "averageUnemploymentRate": {
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}",
+      "map": "function (doc) {\n  if(doc.type == \"unemployment_rate\"){\n    if(doc.rate != null && doc.rate != 0){\n      emit(doc.city, parseFloat(doc.rate));\n    }\n  }\n}"
+    },
+    "averagePoverty": {
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}",
+      "map": "function (doc) {\n  if(doc.type == \"poverty\"){\n    if(doc.rate != null && doc.rate != 0){\n      emit(doc.city, doc.rate);\n    }\n  }\n}"
+    },
+    "adelaideNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "brisbaneNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "goldCoastNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "melbourneNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "perthNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "sydneyNoChildren": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"family_with_no_children\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "averageNoChildren": {
+      "map": "function (doc) {\n  if(doc.type == \"family_with_no_children\"){\n    if(doc.rate != 0){\n      emit(doc.city, doc.rate);\n    }\n  }\n}",
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values);\n}"
+    },
+    "adelaideMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"adelaide\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "brisbaneMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"brisbane\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "goldCoastMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"goldCoast\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "melbourneMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"melbourne\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "perthMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"perth\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "sydneyMentalProblem": {
+      "map": "function (doc) {\n  if(doc.city == \"sydney\" && doc.type == \"mental_problem\"){\n    emit(doc.area_name, doc.rate);\n  }\n}"
+    },
+    "averageMentalProblem": {
+      "reduce": "function (keys, values, rereduce) {\n  return sum(values)/values.length;\n}",
+      "map": "function (doc) {\n  if(doc.type == \"mental_problem\"){\n    if(doc.rate != null && doc.rate != 0){\n      emit(doc.city, doc.rate);\n    }\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}
