@@ -1,3 +1,4 @@
+Heming Li
 This Ansible document is for one-click deployment automation, including creating virtual machines, deploying running environment, setting up CouchDB cluster by Docker, uploading harvesters and web applications to the server and launching them all.
 
 To ensure it run successfully, please do:
