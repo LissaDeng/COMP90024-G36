@@ -1,4 +1,5 @@
-Heming Li
+Group members:
+Peiyi Wang / Lixia Deng / Heming Li / Guannan Li / Shuohang Hu
 This Ansible document is for one-click deployment automation, including creating virtual machines, deploying running environment, setting up CouchDB cluster by Docker, uploading harvesters and web applications to the server and launching them all.
 
 To ensure it run successfully, please do:
@@ -48,4 +49,3 @@ ansible
 ├── harvester2.sh                         # shell script used to launch harvester2
 ├── harvester3.sh                         # shell script used to launch harvester3
 
-PEIYI WANG
